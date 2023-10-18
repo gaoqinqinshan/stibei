@@ -9,7 +9,7 @@
           <router-link to="/index" style="text-decoration: none">
             <h3 style="color: #3a8ee6;letter-spacing: 3px;">大学生健康管理系统</h3>
           </router-link>
-        </div>
+        </div>        
       </div>
       <div style="width: 500px;height: 60px;">
         <span style="color:white;letter-spacing: 5px"></span>
@@ -48,7 +48,8 @@
           </div>
         </div>
       </div>
-       
+      <!-- echart  -->
+      <div class="echart" id="mychart" :style="myChartStyle"></div>
       </div>
     <el-dialog title="修改密码" :visible.sync="addDialogVisible"
                width="30%">
@@ -68,14 +69,34 @@
         </el-form-item>
       </el-form>
     </el-dialog>
+    
   </div>
 </template>
+<!-- <template>
+  <div class="block">
+    <el-slider
+      v-model="value1"
+      vertical
+      height="200px">
+    </el-slider>
+  </div>
+</template> -->
+
+<!-- <script>
+  export default {
+    data() {
+      return {
+        value: 0
+      }
+    }
+  }
+</script> -->
 <script>
 import Message from '../components/messages/index'
 import Color from '../mock/color.js'
+import * as echarts from "echarts";
 export default {
   data() {
-
     var validatePass = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请输入密码'));
@@ -96,6 +117,34 @@ export default {
       }
     };
     return {
+      key_1: '',
+      value1: 0,
+      myChart: {},
+      pieData: [
+        {
+          value: 463,
+          name: "通信与工程学院"
+        },
+        {
+          value: 395,
+          name: "大数据工程学院"
+        },
+        {
+          value: 157,
+          name: "人工智能学院"
+        },
+        {
+          value: 149,
+          name: "数字经济与管理学院"
+        },
+        {
+          value: 147,
+          name: "淬炼商学院"
+        }
+      ],
+      pieName: [],
+      myChartStyle: {width: "100%", height: "700px"}, //图表样式
+
       menus: [],
       addDialogVisible: false,
       isCollapse: false,
@@ -126,7 +175,65 @@ export default {
       roleData: {}
     }
   },
+  mounted() {
+    this.initDate(); //数据初始化
+    this.initEcharts();
+  },
+  
   methods: {
+    initDate() {
+      for (let i = 0; i < this.pieData.length; i++) {
+        // this.xData[i] = i;
+        // this.yData =this.xData[i]*this.xData[i];
+        this.pieName[i] = this.pieData[i].name;
+      }
+    },
+    initEcharts() {
+      // 饼图
+      const option = {
+        title: {
+          // 设置饼图标题，位置设为顶部居中
+          text: "院内前五bmi图示",
+          top: "10%",
+          left: "center"
+        },
+        series: [
+          {
+            type: "pie",
+            label: {
+              show: true,
+              formatter: "{b} : {c} ({d}%)" // b代表名称，c代表对应值，d代表百分比
+            },
+            radius: "60%", //饼图半径
+            data: this.pieData
+          }
+        ]
+      };
+      console.log(this.seriesData);
+      // const optionFree = {
+      //   xAxis: {},
+      //   yAxis: {},
+      //   series: [
+      //     {
+      //       data: this.seriesData,
+      //       type: "line",
+      //       smooth: true
+      //     }
+      //   ]
+      // };
+      this.myChart = echarts.init(document.getElementById("mychart"));
+      this.myChart.setOption(option);
+      //随着屏幕大小调节图表
+      window.addEventListener("resize", () => {
+        this.myChart.resize();
+      });
+    },
+    // test(){
+    //   console.log("ttt")
+    //   this.$http.get("/checkInfo/test").then(res=>{
+    //     this.key_1 = res.key
+    //   })
+    // },
     async logout() {
       this.$http.get("/user/loginOut").then(res => {
         if (res.status === 200) {

@@ -245,7 +245,7 @@
         name: "index",
         components:{ImageUpload},
         data(){
-            const validateString = (rule, value, callback)=>{
+            const validateString = (rule, value, callback) =>{
                 value = value.split(" ").join("");
                 if (value === '') {
                     callback(new Error('请输入有效值'));

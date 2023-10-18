@@ -5,6 +5,7 @@
     <el-card style="background-color: rgba(216, 210, 210, 0.7);border-radius: 20px 10px 20px 10px;box-shadow: 10px 10px 5px rgba(73, 71, 71, 0.9)">
       <img src="../assets/sport.png" alt="移通学院" style="width: 100px;height: 100px">
       <el-form :model="loginForm" :rules="rules" ref="loginForm">
+        
         <h1 style="margin: 6 px 0">大学生健康管理系统</h1>
         <span
           style="font-size:20px;letter-spacing: 20px;text-shadow: -4px -4px 5px #eeeaea;font-variant: all-small-caps;word-spacing: 3px;">欢迎登陆</span>
@@ -16,7 +17,7 @@
         </el-form-item>
         <el-form-item>
         
-          <el-button type="success" size="small" style="margin-top: 10px" @click="login(loginForm)">登&nbsp;&nbsp;&nbsp;&nbsp;录</el-button>
+          <el-button type="submit" size="small" style="margin-top: 10px" @click="login(loginForm)" @keydown.enter="abc">登&nbsp;&nbsp;&nbsp;&nbsp;录</el-button>
           <el-button type="info" size="small" style="margin-top: 10px" @click="openRegister">
             注&nbsp;&nbsp;&nbsp;&nbsp;册
           </el-button>
@@ -150,6 +151,7 @@
             }
         },
         methods: {
+
             login(data) {
                 let self = this;
                 if (data.username === "" || data.password === "") {
@@ -173,6 +175,7 @@
 
                 
             },
+            
             openRegister() {
                 this.$http.get("/role/list").then(res => {
                     if (res.status === 200) {
@@ -204,7 +207,9 @@
             resetForm() {
               this.registerForm = {};
             },
-
+            abc(){
+              console.log("slkdl");
+            }
         }
     }
 </script>

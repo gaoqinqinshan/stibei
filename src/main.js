@@ -9,6 +9,9 @@ import VueQuillEditor from 'vue-quill-editor'
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
+// echarts
+import echarts from 'echarts'
+Vue.prototype.$echarts = echarts
 import Axios from 'axios'
 window.echarts = require("echarts");
 Vue.use(ElementUI);

@@ -22,7 +22,7 @@ export default new Router({
             component: () => import('./views/Home'),
             children:[
                 route("/selfInfo","/selfInfo/Index","个人信息"),
-                route("/users","/user/Index","学生信息管理"),
+                route("/rr","/user/Index","学生信息管理"),
                 route("/healthManage","/health/HealthList","健康档案(体检数据)管理"),
                 route("/selfHealth","/health/SelfHealthList","个人健康档案"),
                 route("/analysis","/health/Analysis","体检数据分析"),
